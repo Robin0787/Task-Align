@@ -4,10 +4,12 @@ import Menu from "../Pages/Shared/Menu/Menu";
 
 const Main = () => {
     return (
-        <div className="flex">
-            <Menu />
-            <Outlet />
-        </div>
+        <section >
+            <article className="flex">
+                <Menu />
+                <Outlet />
+            </article>
+        </section>
     );
 };
 
