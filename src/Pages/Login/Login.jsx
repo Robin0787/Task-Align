@@ -2,9 +2,23 @@
 
 const Login = () => {
     return (
-        <div className="p-10 bg-blue-500 text-white text-3xl text-center w-1/2 mx-auto">
-            <h1 className="">Login</h1>
-        </div>
+        <section className="flex justify-center items-center h-full w-full">
+            <form className="text-white px-6 text-sm flex flex-col gap-3 w-full">
+                <div className="space-y-1">
+                    <label htmlFor="email">Email</label><br />
+                    <input type="text" name="email" className="w-full px-2 py-2 rounded-md border outline-0  border-gray-300 bg-gradient-to-l from-blue-500 to-blue-600 text-gray-100  focus:text-gray-600
+            focus:from-gray-100 focus:to-gray-100 duration-300"/>
+                </div>
+                <div className="space-y-1">
+                    <label htmlFor="password">Password</label><br />
+                    <input type="password" name="password" className="w-full px-2 py-2 rounded-md border outline-0  border-gray-300 bg-gradient-to-l from-blue-500 to-blue-600 text-gray-100  focus:text-gray-600  focus:from-gray-100 focus:to-gray-100 duration-300" />
+                </div>
+                <button
+                    className="w-full mt-4 py-2 rounded-md border outline-0  border-gray-300 bg-transparent text-gray-100  hover:text-gray-600 hover:bg-gray-100 duration-300">
+                    Login
+                </button>
+            </form>
+        </section>
     );
 };
 

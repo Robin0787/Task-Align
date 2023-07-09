@@ -29,6 +29,7 @@ const Menu = () => {
 
     const active = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md bg-gray-100 text-blue-600 bg-duration-200 group';
     const notActive = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md hover:bg-blue-700 bg-duration-200 group';
+    
     return (
         <section className={`bg-gradient-to-l from-blue-500 to-blue-800 text-gray-100 min-h-screen ${open ? 'w-60' : 'w-16'} duration-500`}>
             <article className="flex flex-col h-full pb-10">
