@@ -87,6 +87,14 @@ const Menu = () => {
                             className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
                         >Profile</p>
                     </NavLink>
+                    <NavLink to={'/signUp'}
+                        className={({ isActive }) => isActive ? active : notActive}>
+                        <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
+                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Sign Up</span>
+                        <p
+                            className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
+                        >Profile</p>
+                    </NavLink>
                     <button
                         className={notActive}>
                         <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>

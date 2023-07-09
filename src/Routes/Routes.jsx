@@ -4,6 +4,7 @@ import AddTask from "../Pages/AddTask/AddTask";
 import CompletedTask from "../Pages/CompletedTask/CompletedTask";
 import Home from "../Pages/Home/Home";
 import MyTasks from "../Pages/MyTasks/MyTasks";
+import SignUp from "../Pages/SignUp/SignUp";
 
 const routes = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
             }
         ]
     },
+    {
+        path: '/signUp',
+        element: <SignUp />
+    }
 ]);
 
 
