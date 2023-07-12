@@ -7,7 +7,7 @@ import { FiSettings } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdTaskAlt } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 const Menu = () => {
@@ -80,22 +80,22 @@ const Menu = () => {
                 </div>
                 <div
                     className="flex mt-10 md:mt-4 flex-col gap-4 relative px-2">
-                    <NavLink to={'/profile'}
-                        className={({ isActive }) => isActive ? active : notActive}>
+                    <Link
+                        className={notActive}>
                         <div>{React.createElement(BiUser, { size: '20' })}</div>
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Profile</span>
                         <p
                             className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
                         >Profile</p>
-                    </NavLink>
-                    <NavLink to={'/signUp'}
-                        className={({ isActive }) => isActive ? active : notActive}>
+                    </Link>
+                    <Link to={'/signUp'}
+                        className={notActive}>
                         <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Sign Up</span>
                         <p
                             className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
-                        >Profile</p>
-                    </NavLink>
+                        >Sign Up</p>
+                    </Link>
                     <button
                         className={notActive}>
                         <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
@@ -104,14 +104,14 @@ const Menu = () => {
                             className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
                         >Log Out</p>
                     </button>
-                    <NavLink to={'/settings'}
-                        className={({ isActive }) => isActive ? active : notActive}>
+                    <Link
+                        className={notActive}>
                         <div>{React.createElement(FiSettings, { size: '20' })}</div>
                         <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-500`}>Settings</span>
                         <p
                             className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
                         >Settings</p>
-                    </NavLink>
+                    </Link>
                 </div>
             </article>
 
