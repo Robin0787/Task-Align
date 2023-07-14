@@ -1,8 +1,17 @@
-import { useState } from "react";
+
+import bcrypt from 'bcryptjs';
+import { updateProfile } from "firebase/auth";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FaStarOfLife } from "react-icons/fa";
+import { ImSpinner9 } from "react-icons/im";
+import SaveUserToDatabase from "../../APIs/SaveUserToDatabase";
+import { authContext } from "../../Provider/Provider";
+
+// SALT should be created ONE TIME upon sign up
+// const salt = bcrypt.genSaltSync(10)
 
 const SignUpForm = () => {
     const [passError, setPassError] = useState('');
@@ -13,27 +22,51 @@ const SignUpForm = () => {
     const [isPassMatched, setIsPassMatched] = useState(true);
     const { register, handleSubmit, formState: { errors }, reset, setFocus } = useForm();
 
+    const { signUpUser, formLoading, setFormLoading } = useContext(authContext);
+
     function formSubmit(data) {
-        if (isPassOk) {            
+        setFormLoading(true);
+        if (isPassOk) {
             if (data.password !== data.confirmPassword) {
+                setFormLoading(false);
                 setIsPassMatched(false);
                 setFocus('confirmPassword');
             } else {
                 setIsPassMatched(true);
-                toast.success('Everything is Ok');
-                console.log(data);
-                // ------------------Next Code Will Start From Here------------------- //
-                // ------------------Next Code Will Start From Here------------------- //
-                // ------------------Next Code Will Start From Here------------------- //
+                signUpUser(data.email, data.password)
+                    .then(async res => {
+                        setFormLoading(false);
+                        const user = res.user;
+                        updateProfile(user, { displayName: data.name });
+                        const hashedPass = bcrypt.hashSync(data.password, 10);
+                        const userInfo = {
+                            name: data.name,
+                            email: user.email,
+                            password: hashedPass
+                        }
+                        SaveUserToDatabase(user.email, userInfo)
+                            .then(data => {
+                                console.log(data);
+                            })
+                        // reset();
+                    })
+                    .catch(err => {
+                        setFormLoading(false);
+                        toast('Error');
+                        console.log(err.message);
+                    })
                 // ------------------Next Code Will Start From Here------------------- //
                 // ------------------Next Code Will Start From Here------------------- //
                 // ------------------Next Code Will Start From Here------------------- //
             }
         } else {
-            toast.error('Password is not Ok!');
             setFocus('password');
+            setFormLoading(false);
         }
     }
+
+
+
 
     function handlePassChange(e) {
         const pass = e.target.value;
@@ -70,7 +103,6 @@ const SignUpForm = () => {
         }
     }
 
-
     return (
         <section className="flex justify-center items-center h-full w-full">
             <form className="text-white px-6 text-sm flex flex-col gap-3 w-full" onSubmit={handleSubmit(formSubmit)}>
@@ -90,7 +122,7 @@ const SignUpForm = () => {
                     <br />
                     <input type="text" name="email"
                         autoComplete="off"
-                        {...register('email', { required: true })}
+                        {...register('email', { required: true, pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/ })}
                         className="w-full px-2 py-2 rounded-md border outline-0  border-gray-300 bg-gradient-to-l from-blue-500 to-blue-600 text-gray-100  focus:text-gray-600
                 focus:from-gray-100 focus:to-gray-100 duration-300"/>
                 </div>
@@ -138,12 +170,15 @@ const SignUpForm = () => {
                         {...register('confirmPassword', { required: true })}
                     />
                     {
-                        isPassMatched ? '' : <p className="absolute -bottom-4 left-0 text-xs text-green-300 whitespace-pre">Password didn't matched</p>
+                        isPassMatched ? '' : <p className="absolute -bottom-4 left-0 text-xs text-green-300 whitespace-pre">Password didn't match</p>
                     }
                 </div>
-                <button type="submit"
-                    className="w-full mt-2 py-2 rounded-md border outline-0  border-gray-300 bg-gray-100 text-blue-600 hover:bg-transparent hover:text-gray-100 hover:bg-gray-100 duration-300">
-                    Sign Up
+                <button
+                    type="submit"
+                    className=' w-full mt-2 py-2 flex justify-center items-center rounded-md border outline-0  border-gray-300 bg-gray-100 text-blue-600 hover:bg-transparent hover:text-gray-100 hover:bg-gray-100 duration-300  disabled:bg-transparent disabled:hover:bg-transparent disabled:text-blue-600 disabled:cursor-wait'
+                    disabled={formLoading}
+                >
+                    {formLoading ? <ImSpinner9 size={20} className="text-white animate-spin duration-300 text-center" /> : 'Sign Up'}
                 </button>
             </form>
         </section>

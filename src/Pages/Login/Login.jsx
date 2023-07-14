@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FaStarOfLife } from "react-icons/fa";
+import { ImSpinner9 } from "react-icons/im";
+import { authContext } from "../../Provider/Provider";
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const [showEye, setShowEye] = useState(false);
     const [focused, setFocused] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
-
+    const {formLoading, setFormLoading} = useContext(authContext);
     function formSubmit(data) {
         console.log(data);
         setShowEye(false);
@@ -56,8 +58,10 @@ const Login = () => {
                 </div>
                 <button
                     type="submit"
-                    className="w-full mt-2 py-2 rounded-md border outline-0  border-gray-300 bg-gray-100 text-blue-600 hover:bg-transparent hover:text-gray-100 hover:bg-gray-100 duration-300">
-                    Login
+                    className=' w-full mt-2 py-2 flex justify-center items-center rounded-md border outline-0  border-gray-300 bg-gray-100 text-blue-600 hover:bg-transparent hover:text-gray-100 hover:bg-gray-100 duration-300  disabled:bg-transparent disabled:hover:bg-transparent disabled:text-blue-600 disabled:cursor-wait'
+                    disabled={formLoading}
+                >
+                    {formLoading ? <ImSpinner9 size={20} className="text-white animate-spin duration-300 text-center" /> : 'Login'}
                 </button>
             </form>
         </section>
