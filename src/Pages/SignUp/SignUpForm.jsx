@@ -7,11 +7,9 @@ import toast from "react-hot-toast";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FaStarOfLife } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
+import { useLocation, useNavigate } from "react-router-dom";
 import SaveUserToDatabase from "../../APIs/SaveUserToDatabase";
 import { authContext } from "../../Provider/Provider";
-
-// SALT should be created ONE TIME upon sign up
-// const salt = bcrypt.genSaltSync(10)
 
 const SignUpForm = () => {
     const [passError, setPassError] = useState('');
@@ -21,6 +19,9 @@ const SignUpForm = () => {
     const [isPassOk, setIsPassOk] = useState(false);
     const [isPassMatched, setIsPassMatched] = useState(true);
     const { register, handleSubmit, formState: { errors }, reset, setFocus } = useForm();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
     const { signUpUser, formLoading, setFormLoading } = useContext(authContext);
 
@@ -46,9 +47,11 @@ const SignUpForm = () => {
                         }
                         SaveUserToDatabase(user.email, userInfo)
                             .then(data => {
-                                console.log(data);
+                                if(data.upsertedCount > 0 || data.matchedCount > 0) {
+                                    reset();
+                                    navigate(from, {replace: true});
+                                }
                             })
-                        // reset();
                     })
                     .catch(err => {
                         setFormLoading(false);

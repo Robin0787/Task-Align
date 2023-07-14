@@ -2,18 +2,36 @@ import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import { useLocation, useNavigate } from "react-router-dom";
+import SaveUserToDatabase from "../../APIs/SaveUserToDatabase";
 import { authContext } from "../../Provider/Provider";
-
 const SocialLogin = () => {
     const { continueWithGoogle, continueWithGithub, formLoading, setFormLoading } = useContext(authContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
+    
     function signUpWithGoogle() {
+        setFormLoading(true);
         continueWithGoogle()
             .then(res => {
-                toast.success('Successful');
-                console.log(res.user);
+                setFormLoading(false);
+                const user = res.user;
+                const uerInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL
+                }
+                SaveUserToDatabase(user.email, uerInfo)
+                .then(data => {
+                    if(data.upsertedCount > 0 || data.matchedCount > 0) {
+                        navigate(from, {replace: true});
+                    }
+                })
             })
             .catch((err) => {
+                setFormLoading(false);
                 toast.error('Failed');
                 console.log(err.message);
             })
@@ -22,8 +40,19 @@ const SocialLogin = () => {
     function signUpWithGithub() {
         continueWithGithub()
             .then(res => {
-                toast.success('Successful');
-                console.log(res.user);
+                setFormLoading(false);
+                const user = res.user;
+                const uerInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL
+                }
+                SaveUserToDatabase(user.email, uerInfo)
+                .then(data => {
+                    if(data.upsertedCount > 0 || data.matchedCount > 0) {
+                        navigate(from, {replace: true});
+                    }
+                })
             })
             .catch((err) => {
                 toast.error('Failed');

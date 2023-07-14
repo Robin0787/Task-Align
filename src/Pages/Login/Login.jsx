@@ -3,20 +3,33 @@ import { useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FaStarOfLife } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
+import { useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../Provider/Provider";
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const [showEye, setShowEye] = useState(false);
     const [focused, setFocused] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
-    const {formLoading, setFormLoading} = useContext(authContext);
-    function formSubmit(data) {
-        console.log(data);
-        setShowEye(false);
-        reset();
-    }
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const {formLoading, setFormLoading, loginUser} = useContext(authContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
+    function formSubmit(data) {
+        setFormLoading(true);
+        loginUser(data.email, data.password)
+        .then(res => {
+            setFormLoading(false);
+            setShowEye(false);
+            reset();
+            navigate(from, {replace: true});
+        })
+        .catch(err => {
+            setFormLoading(false);
+            console.log(err.message);
+        })
+    }
 
     function handlePassChange(e) {
         const pass = e.target.value;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import { CgGoogleTasks } from "react-icons/cg";
@@ -8,10 +8,13 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdTaskAlt } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
+import { authContext } from "../../../Provider/Provider";
 
 
 const Menu = () => {
+    const { user, logOutUser } = useContext(authContext);
     const [open, setOpen] = useState(true);
+
     const closeOpenMenuButton = () => {
         const windowWidth = window.innerWidth;
         if (windowWidth < 768) {
@@ -29,7 +32,7 @@ const Menu = () => {
 
     const active = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md bg-gray-100 text-blue-600 bg-duration-200 group';
     const notActive = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md hover:bg-blue-700 bg-duration-200 group';
-    
+
     return (
         <section className={`bg-gradient-to-l from-blue-500 to-blue-800 text-gray-100 min-h-screen ${open ? 'w-60' : 'w-16'} duration-500`}>
             <article className="flex flex-col h-full pb-10">
@@ -80,38 +83,51 @@ const Menu = () => {
                 </div>
                 <div
                     className="flex mt-10 md:mt-4 flex-col gap-4 relative px-2">
-                    <Link
-                        className={notActive}>
-                        <div>{React.createElement(BiUser, { size: '20' })}</div>
-                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Profile</span>
-                        <p
-                            className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
-                        >Profile</p>
-                    </Link>
-                    <Link to={'/signUp'}
-                        className={notActive}>
-                        <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
-                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Sign Up</span>
-                        <p
-                            className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
-                        >Sign Up</p>
-                    </Link>
-                    <button
-                        className={notActive}>
-                        <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
-                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-300`}>Log Out</span>
-                        <p
-                            className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
-                        >Log Out</p>
-                    </button>
-                    <Link
-                        className={notActive}>
-                        <div>{React.createElement(FiSettings, { size: '20' })}</div>
-                        <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-500`}>Settings</span>
-                        <p
-                            className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
-                        >Settings</p>
-                    </Link>
+                    {
+                        user && (<Link
+                            className={notActive}>
+                            {
+                                user?.photoURL ?
+                                    <img src={user.photoURL} className="h-6 w-6 ring-2 ring-gray-100 rounded-full" />
+                                    : <div>{React.createElement(BiUser, { size: '20' })}</div>
+                            }
+                            <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Profile</span>
+                            <p
+                                className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
+                            >Profile</p>
+                        </Link>)
+                    }
+                    {
+                        !user && (<Link to={'/signUp'}
+                            className={notActive}>
+                            <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
+                            <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-200`}>Sign Up</span>
+                            <p
+                                className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
+                            >Sign Up</p>
+                        </Link>)
+                    }
+                    {
+                        user && (<Link
+                            className={notActive}>
+                            <div>{React.createElement(FiSettings, { size: '20' })}</div>
+                            <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-500`}>Settings</span>
+                            <p
+                                className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
+                            >Settings</p>
+                        </Link>)
+                    }
+                    {
+                        user && (<button
+                            onClick={() => { logOutUser() }}
+                            className={notActive}>
+                            <div>{React.createElement(AiOutlineLogout, { size: '20' })}</div>
+                            <span className={`whitespace-pre duration-500 ${!open && 'opacity-0 translate-x-28 overflow-hidden'}  delay-300`}>Log Out</span>
+                            <p
+                                className={`${open && 'hidden'} absolute left-40 text-sm font-medium whitespace-pre text-blue-600 bg-white shadow-xl rounded-md group-hover:px-4 group-hover:py-2 w-0 overflow-hidden group-hover:left-16 group-hover:w-fit group-hover:duration-700`}
+                            >Log Out</p>
+                        </button>)
+                    }
                 </div>
             </article>
 
