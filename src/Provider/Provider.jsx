@@ -36,6 +36,7 @@ const Provider = ({ children }) => {
                 setUser(currentUser);
             }else {
                 setUser(null);
+                localStorage.removeItem('userToken');
             }
         })
         return () => unSubscribe();

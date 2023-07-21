@@ -4,7 +4,6 @@ import { BiUser } from "react-icons/bi";
 import { CgGoogleTasks } from "react-icons/cg";
 import { FaTasks } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import { HiMenuAlt3 } from "react-icons/hi";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdTaskAlt } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
@@ -17,8 +16,10 @@ const Menu = () => {
 
     const closeOpenMenuButton = () => {
         const windowWidth = window.innerWidth;
-        if (windowWidth < 768) {
+        if (windowWidth < 1024) {
             setOpen(false);
+        }else if(windowWidth >= 1024) {
+            setOpen(true);
         }
     };
 
@@ -30,18 +31,19 @@ const Menu = () => {
         };
     }, []);
 
-    const active = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md bg-gray-100 text-blue-600 bg-duration-200 group';
-    const notActive = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md hover:bg-blue-700 bg-duration-200 group';
+    const active = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md bg-indigo-700 duration-100 group';
+    const notActive = 'flex gap-3.5 items-center text-sm font-medium py-3 px-4 rounded-md hover:bg-indigo-800 duration-100 group';
 
     return (
-        <section className={`bg-gradient-to-l from-blue-500 to-blue-800 text-gray-100 min-h-screen ${open ? 'w-60' : 'w-16'} duration-500`}>
-            <article className="flex flex-col h-full pb-10">
+        <section className={`bg-gradient-to-r from-indigo-800 to-indigo-900 text-gray-100 h-screen 
+        ${open ? 'w-60' : 'w-16'} duration-500`}>
+            <article className="flex flex-col h-full md:py-3">
                 <div className="flex justify-between items-center py-3 px-4 ">
                     <h2 className={`whitespace-pre duration-500 ${!open && 'opacity-0 -translate-x-20 overflow-hidden'}  delay-0 tracking-[5px] text-lg`} >Task Align</h2>
-                    <button
+                    {/* <button
                         className="hidden md:flex justify-end">
                         <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => { setOpen(!open) }} />
-                    </button>
+                    </button> */}
                 </div>
                 <div
                     className="flex mt-10 md:mt-4 flex-col gap-4 relative px-2">
@@ -82,9 +84,10 @@ const Menu = () => {
                     <hr className="border-gray-400" />
                 </div>
                 <div
-                    className="flex mt-10 md:mt-4 flex-col gap-4 relative px-2">
+                    className="flex md:mt-4 flex-col gap-4 relative px-2">
                     {
-                        user && (<Link
+                        user && (<Link 
+                            to={'/profile'}
                             className={notActive}>
                             {
                                 user?.photoURL ?

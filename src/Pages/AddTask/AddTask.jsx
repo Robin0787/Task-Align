@@ -2,8 +2,8 @@
 
 const AddTask = () => {
     return (
-        <div className="p-10 bg-blue-500 text-white text-3xl text-center w-1/2 mx-auto">
-            <h1>Add Tasks</h1>
+        <div className="text-3xl md:text-5xl text-center font-thin bg-gradient-to-r from-indigo-800 to-indigo-900 text-white flex justify-center items-center h-full w-full">
+            <h2 className="p-10  rounded-lg shadow-[2px_2px_10px_6px] shadow-blue-300">Add Task</h2>
         </div>
     )
 };

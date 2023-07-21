@@ -1,9 +1,29 @@
+import React from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+// import required modules
+import { Pagination } from 'swiper/modules';
 
 const Home = () => {
     return (
-        <div className="p-10 bg-blue-500 text-white text-3xl text-center w-1/2 mx-auto">
-            <h1 className="">Home</h1>
+        <div className="border border-blue-600">
+            <h2 className="">Home</h2>
+            <Swiper pagination={true} modules={[Pagination]} className="h-[200px] w-full">
+                <SwiperSlide>Slide 1</SwiperSlide>
+                <SwiperSlide>Slide 2</SwiperSlide>
+                <SwiperSlide>Slide 3</SwiperSlide>
+                <SwiperSlide>Slide 4</SwiperSlide>
+                <SwiperSlide>Slide 5</SwiperSlide>
+                <SwiperSlide>Slide 6</SwiperSlide>
+                <SwiperSlide>Slide 7</SwiperSlide>
+                <SwiperSlide>Slide 8</SwiperSlide>
+                <SwiperSlide>Slide 9</SwiperSlide>
+            </Swiper>
         </div>
     );
 };

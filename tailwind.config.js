@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        'primary-bg': 'bg-gradient-to-r from-indigo-800 to-indigo-900'
+      }
+    },
   },
   plugins: [],
 };

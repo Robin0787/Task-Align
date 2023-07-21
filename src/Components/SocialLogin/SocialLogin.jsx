@@ -4,6 +4,7 @@ import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router-dom";
 import SaveUserToDatabase from "../../APIs/SaveUserToDatabase";
+import GetUserToken from "../../Hooks/GetUserToken";
 import { authContext } from "../../Provider/Provider";
 const SocialLogin = () => {
     const { continueWithGoogle, continueWithGithub, formLoading, setFormLoading } = useContext(authContext);
@@ -11,7 +12,7 @@ const SocialLogin = () => {
     const location = useLocation();
     const from = location.state?.from || '/';
 
-    
+
     function signUpWithGoogle() {
         setFormLoading(true);
         continueWithGoogle()
@@ -24,11 +25,17 @@ const SocialLogin = () => {
                     photoURL: user.photoURL
                 }
                 SaveUserToDatabase(user.email, uerInfo)
-                .then(data => {
-                    if(data.upsertedCount > 0 || data.matchedCount > 0) {
-                        navigate(from, {replace: true});
-                    }
-                })
+                    .then(data => {
+                        if (data.upsertedCount > 0 || data.matchedCount > 0) {
+                            GetUserToken(user.email)
+                            .then(data => {
+                                if(data.token){
+                                    localStorage.setItem('userToken', data.token)
+                                }
+                            });
+                            navigate(from, { replace: true });
+                        }
+                    })
             })
             .catch((err) => {
                 setFormLoading(false);
@@ -48,11 +55,11 @@ const SocialLogin = () => {
                     photoURL: user.photoURL
                 }
                 SaveUserToDatabase(user.email, uerInfo)
-                .then(data => {
-                    if(data.upsertedCount > 0 || data.matchedCount > 0) {
-                        navigate(from, {replace: true});
-                    }
-                })
+                    .then(data => {
+                        if (data.upsertedCount > 0 || data.matchedCount > 0) {
+                            navigate(from, { replace: true });
+                        }
+                    })
             })
             .catch((err) => {
                 toast.error('Failed');

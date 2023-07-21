@@ -68,9 +68,6 @@ const SignUpForm = () => {
         }
     }
 
-
-
-
     function handlePassChange(e) {
         const pass = e.target.value;
 
